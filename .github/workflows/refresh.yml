@@ -1,0 +1,25 @@
+name: Refresh contribution art
+
+on:
+  schedule:
+    - cron: '0 1 * * *'  # 01:00 UTC daily
+  workflow_dispatch:      # allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ secrets.GIT_AUTHOR_EMAIL }}"
+          git remote set-url origin \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+
+      - name: Rewrite history & push
+        run: python3 generate.py

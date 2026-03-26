@@ -2,7 +2,7 @@ name: Refresh contribution art
 
 on:
   schedule:
-    - cron: '0 1 * * *'  # 01:00 UTC daily
+    - cron: '0 1 * * 0'  # 01:00 UTC sunday
   workflow_dispatch:      # allow manual trigger
 
 permissions:
